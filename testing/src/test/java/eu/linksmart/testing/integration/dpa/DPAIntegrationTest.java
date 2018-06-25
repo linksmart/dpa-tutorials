@@ -586,9 +586,9 @@ public class DPAIntegrationTest implements MqttCallback{
     }
     private Map getStatement(String name){
         Map statement = null;
-        String path = "../tutorial.json";
+        String path = "./tutorial.json";
         File source = new File(path);
-        if(source.exists())
+        if(!source.exists())
             fail("statement source file not found!");
         try {
             statement =parse( Files.readAllBytes(Paths.get(path)), Map.class);

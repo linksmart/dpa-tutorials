@@ -8,6 +8,7 @@ services:
       - net0
   weather:
     image: eclipse-mosquitto
+    container_name: weather
     ports:
       - "1883:1883"
     networks:
@@ -20,6 +21,7 @@ services:
       - net1
   city:
     image: eclipse-mosquitto
+    container_name: city
     ports:
       - "1881:1883"
     networks:
@@ -52,7 +54,7 @@ services:
       - city
       - main_broker
     volumes:
-      - .\stm\sc-conf.json:/conf/sc-conf.json
+      - .\conf\sc-conf.json:/conf/sc-conf.json
     command:
       - -conf
       - /conf/sc-conf.json
@@ -66,6 +68,7 @@ services:
   agent:
     image: docker.linksmart.eu/agent:dpa-snapshot
     hostname: agent
+    container_name: agent
     depends_on:
       - weather
       - waste
@@ -87,7 +90,7 @@ services:
       - "8319:8319"
       - "5005:5005"
     volumes:
-      - .\stm\bootstrapping.json:/data/bootstrapping/bootstrapping.json
+      - .\conf\bootstrapping.json:/data/bootstrapping/bootstrapping.json
     networks:
       - net
       - net0
@@ -100,6 +103,9 @@ services:
       - "./*:/dependencies/*"
       - "org.springframework.boot.loader.PropertiesLauncher"
 networks:
+    default:
+      external:
+        name: my-pre-existing-network
     net:
     net0:
     net1:

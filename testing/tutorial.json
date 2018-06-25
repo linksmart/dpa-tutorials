@@ -1,57 +1,69 @@
-// aggregation (average temperature)
 {
-  "name": "average_temperature" ,
-  "statement": "select avg(intResult) from Observation(datastream.id.toString() like 'tmp%').win:time(30 sec) "
-}
-// query (full alert)
-{
-    "name": "full_alert" ,
+  "aggregation": {
+    "name": "average_temperature",
+    "statement": "select avg(intResult) from Observation(datastream.id.toString() like 'tmp%').win:time(30 sec) "
+  },
+  "query": {
+    "name": "full_alert",
     "statement": "select datastream.thing.id from Observation(datastream.id.toString() like 'fill%' and intResult> 75)"
-}
-// post-process (trash weight bin)
-{
-    "name": "weight" ,
+  },
+  "post-process": {
+    "name": "weight",
     "statement": "select datastream.thing.id as binID, intResult*10000 as weight  from Observation(datastream.id.toString() like 'fill%')"
-}
-// fusion (stinky bin alert)
-{
-    "name": "stinky_bin" ,
+  },
+  "fusion": {
+    "name": "stinky_bin",
     "statement": "select 'bin1' as binID  from Observation(datastream.id.toString() like '%1'  and ( intResult> 25 or intResult> 50)).win:time(1 sec)  having count(*)=2"
-}
-// route (stinky bin alert)
-{
-    "name": "stinky_bin_route" ,
+  },
+  "broker_route": {
+    "name": "stinky_bin_route",
     "statement": "select 'bin2' as binID  from Observation(datastream.id.toString() like '%2'  and ( intResult > 25 or intResult > 50)).win:time(1 sec)  having count(*)=2",
-	"scope":["city"]
-}
-// route advanced (stinky bin alert)
-{
-    "name": "stinky_bin_route2" ,
+    "scope": [
+      "city"
+    ]
+  },
+  "topic_broker_route": {
+    "name": "stinky_bin_route2",
     "statement": "select 'bin3' as binID  from Observation(datastream.id.toString() like '%3'  and ( intResult> 25 or intResult> 50)).win:time(1 sec)  having count(*)=2",
-	"scope":["city"],
-	"output":["LS/my/topic"]
-}
-// route advanced translate (stinky bin alert)
-{
-    "name": "stinky_bin_route_translate" ,
+    "scope": [
+      "city"
+    ],
+    "output": [
+      "LS/my/topic"
+    ]
+  },
+  "payload_translate": {
+    "name": "stinky_bin_route_translate",
     "statement": "select 'bin4' as binID  from Observation(datastream.id.toString() like '%4'  and ( intResult > 25 or intResult > 50)).win:time(1 sec)  having count(*)=2",
-	"scope":["city"],
-	"output":["LS/DPA/1/SenML/10/Event/stinky_bin_route_translate"],
-	"resultType":"SenML"
-}
-// route advanced transform (stinky bin alert)
-{
-    "name": "stinky_bin_route_transform" ,
+    "scope": [
+      "city"
+    ],
+    "output": [
+      "LS/DPA/1/SenML/10/Event/stinky_bin_route_translate"
+    ],
+    "resultType": "SenML"
+  },
+  "payload_transform": {
+    "name": "stinky_bin_route_transform",
     "statement": "select 'bin5' as binID  from Observation(datastream.id.toString() like '%5'  and ( intResult > 25 or intResult > 50)).win:time(1 sec)  having count(*)=2",
-	"scope":["city"],
-	"output":["LS/DPA/1/RAW/0/RAW/stinky_bin"],
-	"resultType":"none"
-}
-// protocol translate (temp)
-{
-    "name": "protocol_translate" ,
+    "scope": [
+      "city"
+    ],
+    "output": [
+      "LS/DPA/1/RAW/0/RAW/stinky_bin"
+    ],
+    "resultType": "none"
+  },
+  "protocol_translate": {
+    "name": "protocol_translate",
     "statement": "select event from Observation as event",
-	"scope":["appbackend"],
-	"output":["routed"],
-	"publisher":"REST_POST"
+    "scope": [
+      "appbackend"
+    ],
+    "LSApiKeyName": "post2pub",
+    "output": [
+      "routed"
+    ],
+    "publisher": "REST_POST"
+  }
 }
