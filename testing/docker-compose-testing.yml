@@ -1,0 +1,33 @@
+version: '3'
+services:
+  it:
+    image: docker.linksmart.eu/ci/maven-builder:latest
+    working_dir: /data/
+    depends_on:
+      - weather
+      - city
+      - waste
+      - main_broker
+      - sc
+      - agent
+    links:
+      - weather
+      - waste
+      - city
+      - main_broker
+      - sc
+      - agent
+    volumes:
+      - ./testing:/data/
+    environment:
+      - BROKER_URL=tcp://weather:1883
+      - BROKER2_URL=tcp://city:1883
+      - AGENT_URL=http://agent:8319
+    command:
+      - -Dversion=1.8.1-SNAPSHOT
+      - test
+    networks:
+      - net
+      - net0
+      - net1
+      - net2

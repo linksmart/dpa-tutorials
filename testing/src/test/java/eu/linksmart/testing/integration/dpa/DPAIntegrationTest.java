@@ -54,11 +54,12 @@ public class DPAIntegrationTest implements MqttCallback{
 
     @Before
     public void initialization(){
-        String url = System.getenv().getOrDefault("BROKER_URL", "tcp://localhost:1883");
+        String url = System.getenv().getOrDefault("BROKER_URL", "tcp://localhost:7883");
 
         agentURL = System.getenv().getOrDefault("AGENT_URL", "http://localhost:8319/");
-        if (agentURL.trim().charAt(url.length() - 1) != '/')
+        if (agentURL.trim().charAt(agentURL.length() - 1) != '/')
             agentURL = agentURL + "/";
+       waitingAgent();
         try {
             mapper = new ObjectMapper();
             mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
@@ -76,6 +77,36 @@ public class DPAIntegrationTest implements MqttCallback{
             fail(e.getMessage());
         }
 
+    }
+
+    private void waitingAgent() {
+        boolean loaded =false;
+        int i=0;
+        do {
+            try {
+
+                if(Request.Get(testURL(agentURL)).execute().returnResponse().getStatusLine().getStatusCode()==200) {
+                    loaded = true;
+                    Thread.sleep(5000);
+                }else {
+                    fail("Agent did not start!");
+                    System.exit(-1);
+                }
+            }catch (Exception ignored){
+                try {
+                    i++;
+                    System.err.println("Waiting agent...");
+                    Thread.sleep(1000);
+                }catch (Exception ig){
+                    // nothing
+                }
+                if(i>60*3){
+                    fail("Agent did not start!");
+                    System.exit(-1);
+                }
+
+            }
+        }while (!loaded );
     }
 
 
@@ -611,7 +642,7 @@ public class DPAIntegrationTest implements MqttCallback{
     }
     private MqttClient prepareSecondBroker(){
         try {
-            String url2 = System.getenv().getOrDefault("BROKER2_URL", System.getenv().getOrDefault("CITY_URL", "tcp://localhost:1881"));
+            String url2 = System.getenv().getOrDefault("BROKER2_URL", System.getenv().getOrDefault("CITY_URL", "tcp://localhost:7881"));
             return new MqttClient(url2, "city"+UUID.randomUUID().toString(),new MemoryPersistence());
         }catch (Exception e){
             fail(e.getMessage());

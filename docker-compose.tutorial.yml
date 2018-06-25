@@ -1,0 +1,20 @@
+version: '3'
+services:
+  main_broker:
+    ports:
+      - "1880:1883"
+  weather:
+    ports:
+      - "1883:1883"
+  waste:
+    ports:
+      - "1882:1883"
+  city:
+    ports:
+      - "1881:1883"
+  sc:
+    ports:
+      - "8082:8082"
+  agent:
+    ports:
+      - "8319:8319"

@@ -2,26 +2,18 @@ version: '3'
 services:
   main_broker:
     image: eclipse-mosquitto
-    ports:
-      - "7880:1883"
     networks:
       - net0
   weather:
     image: eclipse-mosquitto
-    ports:
-      - "7883:1883"
     networks:
       - net
   waste:
     image: eclipse-mosquitto
-    ports:
-      - "7882:1883"
     networks:
       - net1
   city:
     image: eclipse-mosquitto
-    ports:
-      - "7881:1883"
     networks:
       - net2
   appbackend:
@@ -61,8 +53,6 @@ services:
       - net0
       - net1
       - net2
-    ports:
-      - "8082:8082"
   agent:
     image: docker.linksmart.eu/agent:dpa-snapshot
     hostname: agent
@@ -83,9 +73,6 @@ services:
       - api_events_mqtt_broker_incoming=weather,waste
       - linksmart_service_catalog_endpoint=http://sc:8082
       - cep_init_bootstrapping_files=/data/bootstrapping/bootstrapping.json
-    ports:
-      - "8319:8319"
-#      - "5005:5005"
     volumes:
       - .\conf\bootstrapping.json:/data/bootstrapping/bootstrapping.json
     networks:
@@ -93,16 +80,7 @@ services:
       - net0
       - net1
       - net2
-#    entrypoint:
-#      - "java"
-#      - "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
-#      - "-cp"
-#      - "./*:/dependencies/*"
-#      - "org.springframework.boot.loader.PropertiesLauncher"
 networks:
-    default:
-      external:
-        name: my-pre-existing-network
     net:
     net0:
     net1:
