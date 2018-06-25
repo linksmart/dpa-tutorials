@@ -44,7 +44,7 @@ services:
       - city
       - main_broker
     volumes:
-      - .\conf\sc-conf.json:/conf/sc-conf.json
+      - ./conf/sc-conf.json:/conf/sc-conf.json
     command:
       - -conf
       - /conf/sc-conf.json
@@ -74,7 +74,7 @@ services:
       - linksmart_service_catalog_endpoint=http://sc:8082
       - cep_init_bootstrapping_files=/data/bootstrapping/bootstrapping.json
     volumes:
-      - .\conf\bootstrapping.json:/data/bootstrapping/bootstrapping.json
+      - ./conf/bootstrapping.json:/data/bootstrapping/bootstrapping.json
     networks:
       - net
       - net0
