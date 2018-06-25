@@ -44,7 +44,7 @@ services:
       - city
       - main_broker
     volumes:
-      - ./conf/sc-conf.json:/conf/sc-conf.json
+      - ./conf/:/conf/
     command:
       - -conf
       - /conf/sc-conf.json
