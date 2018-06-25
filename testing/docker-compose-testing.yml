@@ -1,5 +1,7 @@
 version: '3'
 services:
+  agent:
+    image: docker.linksmart.eu/agent:dpa-experimental
   it:
     image: docker.linksmart.eu/ci/maven-builder:latest
     working_dir: /data/
