@@ -58,9 +58,8 @@
     "name": "protocol_translate",
     "statement": "select event from Observation as event",
     "scope": [
-      "appbackend"
+      "appbackend:post2pub"
     ],
-    "LSApiKeyName": "post2pub",
     "output": [
       "routed"
     ],
