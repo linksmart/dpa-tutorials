@@ -5,7 +5,7 @@
   },
   "query": {
     "name": "full_alert",
-    "statement": "select datastream.thing.id from Observation(datastream.id.toString() like 'fill%' and intResult> 75)"
+    "statement": "select datastream.thing.id from Observation(datastream.id.toString() like 'fill%' and intResult> 0)"
   },
   "post-process": {
     "name": "weight",
@@ -13,18 +13,18 @@
   },
   "fusion": {
     "name": "stinky_bin",
-    "statement": "select 'bin1' as binID  from Observation(datastream.id.toString() like '%1'  and ( intResult> 25 or intResult> 50)).win:time(1 sec)  having count(*)=2"
+    "statement": "select 'bin1' as binID  from Observation((datastream.id.toString() = 'tmp1' and  intResult> 10 ) or ( datastream.id.toString() = 'fill1' and intResult> 0 )).win:time(1 sec)  having count(*)=2"
   },
   "broker_route": {
     "name": "stinky_bin_route",
-    "statement": "select 'bin2' as binID  from Observation(datastream.id.toString() like '%2'  and ( intResult > 25 or intResult > 50)).win:time(1 sec)  having count(*)=2",
+    "statement": "select 'bin2' as binID  from Observation((datastream.id.toString() = 'tmp2' and  intResult> 10 ) or ( datastream.id.toString() = 'fill2' and intResult> 0 )).win:time(1 sec)  having count(*)=2",
     "scope": [
       "city"
     ]
   },
   "topic_broker_route": {
     "name": "stinky_bin_route2",
-    "statement": "select 'bin3' as binID  from Observation(datastream.id.toString() like '%3'  and ( intResult> 25 or intResult> 50)).win:time(1 sec)  having count(*)=2",
+    "statement": "select 'bin3' as binID  from Observation((datastream.id.toString() = 'tmp3' and  intResult> 10 ) or ( datastream.id.toString() = 'fill3' and intResult> 0 )).win:time(1 sec)  having count(*)=2",
     "scope": [
       "city"
     ],
@@ -34,7 +34,7 @@
   },
   "payload_translate": {
     "name": "stinky_bin_route_translate",
-    "statement": "select 'bin4' as binID  from Observation(datastream.id.toString() like '%4'  and ( intResult > 25 or intResult > 50)).win:time(1 sec)  having count(*)=2",
+    "statement": "select 'bin4' as binID  from Observation((datastream.id.toString() = 'tmp4' and  intResult> 10 ) or ( datastream.id.toString() = 'fill4' and intResult> 0 )).win:time(1 sec)  having count(*)=2",
     "scope": [
       "city"
     ],
@@ -45,7 +45,7 @@
   },
   "payload_transform": {
     "name": "stinky_bin_route_transform",
-    "statement": "select 'bin5' as binID  from Observation(datastream.id.toString() like '%5'  and ( intResult > 25 or intResult > 50)).win:time(1 sec)  having count(*)=2",
+    "statement": "select 'bin5' as binID  from Observation((datastream.id.toString() = 'tmp5' and  intResult> 10 ) or ( datastream.id.toString() = 'fill5' and intResult> 0 )).win:time(1 sec)  having count(*)=2",
     "scope": [
       "city"
     ],
