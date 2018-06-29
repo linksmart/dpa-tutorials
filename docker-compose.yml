@@ -24,7 +24,7 @@ services:
       - main_broker
       - sc
     environment:
-      - connection_broker_mqtt_hostname=weather
+      - connection_broker_mqtt_hostname=main_broker
       - linksmart_service_catalog_endpoint=http://sc:8082
     networks:
       - net
