@@ -54,7 +54,8 @@ public class DPAIntegrationTest implements MqttCallback{
 
     @Before
     public void initialization(){
-        String url = System.getenv().getOrDefault("BROKER_URL", "tcp://localhost:1883");
+        String url = System.getenv().getOrDefault("INPUT_BROKER_URL", "tcp://localhost:1883");
+        String url2 = System.getenv().getOrDefault("OUTPUT_BROKER_URL", "tcp://localhost:1883");
 
         agentURL = System.getenv().getOrDefault("AGENT_URL", "http://localhost:8319/");
         if (agentURL.trim().charAt(agentURL.length() - 1) != '/')
@@ -66,7 +67,7 @@ public class DPAIntegrationTest implements MqttCallback{
             mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
             sender = new MqttClient(url, "sender"+UUID.randomUUID().toString(),new MemoryPersistence());
-            subscriber = new MqttClient(url, "subscriber"+UUID.randomUUID().toString(),new MemoryPersistence());
+            subscriber = new MqttClient(url2, "subscriber"+UUID.randomUUID().toString(),new MemoryPersistence());
             subscriber.setCallback(this);
 
             connect(sender);

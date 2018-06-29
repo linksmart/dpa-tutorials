@@ -22,7 +22,8 @@ services:
     volumes:
       - ./testing:/data/
     environment:
-      - BROKER_URL=tcp://weather:1883
+      - INPUT_BROKER_URL=tcp://weather:1883
+      - OUTPUT_BROKER_URL=tcp://main_broker:1883
       - BROKER2_URL=tcp://city:1883
       - AGENT_URL=http://agent:8319
     command:
