@@ -355,7 +355,7 @@ public class DPAIntegrationTest implements MqttCallback{
         execute(Request.Delete(testURL(agentURL+"/statement/"+tutorial_short_name+"/")));
 
         assertEquals("Messaged arrive to second (city) broker?",true,arrived[0]);
-        assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopic()));
+        assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopics().get(0)));
 
         ending();
     }
@@ -412,8 +412,8 @@ public class DPAIntegrationTest implements MqttCallback{
 
         assertEquals("Messaged arrive to second (city) broker?",true,arrived[0]);
         // TODO: if LS-369 is fixed uncomment this two lines
-        //assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopic()));
-        //assertEquals("The topic defined in the query and response topic  do not match","LS/my/topic",(responses.getResponsesTail().getTopic()));
+        assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopics().get(0)));
+        assertEquals("The topic defined in the query and response topic  do not match","LS/my/topic",(responses.getResponsesTail().getTopics().get(0)));
         System.err.println("(open issue LS-369) The arrived topic and topic defined of the query do not match"); // <-- TODO remove this line if  LS-369 is fixed
         assertEquals("The defined topic and the arrived topic of the query do not match","LS/my/topic",arrTopic[0]);
 
@@ -474,8 +474,8 @@ public class DPAIntegrationTest implements MqttCallback{
 
         assertEquals("Messaged arrive to second (city) broker?",true,arrived[0]);
         // TODO: if LS-369 is fixed uncomment this two lines
-        //assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopic()));
-        //assertEquals("The topic defined in the query and response topic  do not match","LS/my/topic",(responses.getResponsesTail().getTopic()));
+        assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopics().get(0)));
+        assertEquals("The topic defined in the query and response topic  do not match","LS/DPA/1/SenML/10/Event/stinky_bin_route_translate",(responses.getResponsesTail().getTopics().get(0)));
         System.err.println("(open issue LS-369) The arrived topic and topic defined of the query do not match"); // <-- TODO remove this line if  LS-369 is fixed
         assertEquals("The defined topic and the arrived topic of the query do not match","LS/DPA/1/SenML/10/Event/stinky_bin_route_translate",arrTopic[0]);
 
@@ -543,8 +543,8 @@ public class DPAIntegrationTest implements MqttCallback{
 
         assertEquals("Messaged arrive to second (city) broker?",true,arrived[0]);
         // TODO: if LS-369 is fixed uncomment this two lines
-        //assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopic()));
-        //assertEquals("The topic defined in the query and response topic  do not match","LS/my/topic",(responses.getResponsesTail().getTopic()));
+        assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopics().get(0)));
+        assertEquals("The topic defined in the query and response topic  do not match","LS/DPA/1/RAW/0/RAW/stinky_bin",(responses.getResponsesTail().getTopics().get(0)));
         System.err.println("(open issue LS-369) The arrived topic and topic defined of the query do not match"); // <-- TODO remove this line if  LS-369 is fixed
         assertEquals("The defined topic and the arrived topic of the query do not match","LS/DPA/1/RAW/0/RAW/stinky_bin",arrTopic[0]);
 
@@ -609,8 +609,8 @@ public class DPAIntegrationTest implements MqttCallback{
 
         assertEquals("Messaged arrive to the endpoint?",true,arrived[0]);
         // TODO: if LS-369 is fixed uncomment this two lines
-        //assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopic()));
-        //assertEquals("The topic defined in the query and response topic  do not match","LS/my/topic",(responses.getResponsesTail().getTopic()));
+        assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopics().get(0)));
+        assertEquals("The topic defined in the query and response topic  do not match","routed",(responses.getResponsesTail().getTopics().get(0)));
         System.err.println("(open issue LS-369) The arrived topic and topic defined of the query do not match"); // <-- TODO remove this line if  LS-369 is fixed
         assertEquals("The defined topic and the arrived topic of the query do not match","routed",arrTopic[0]);
 
