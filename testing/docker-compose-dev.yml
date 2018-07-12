@@ -7,7 +7,7 @@ services:
       - "5005:5005"
     entrypoint:
       - "java"
-      - "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+      - "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
       - "-cp"
       - "./*:/dependencies/*"
       - "org.springframework.boot.loader.PropertiesLauncher"
