@@ -4,7 +4,7 @@ services:
     image: docker.linksmart.eu/agent:dpa-experimental
   it:
     image: docker.linksmart.eu/ci/maven-builder:latest
-    working_dir: /data/
+    working_dir: /test/
     depends_on:
       - weather
       - city
@@ -20,7 +20,8 @@ services:
       - sc
       - agent
     volumes:
-      - ./testing:/data/
+      - ./:/data/
+      - ./testing:/test/
     environment:
       - INPUT_BROKER_URL=tcp://weather:1883
       - OUTPUT_BROKER_URL=tcp://main_broker:1883
