@@ -22,6 +22,10 @@
       "city"
     ]
   },
+    "broker_route_dummy_to_update": {
+    "name": "stinky_bin_route_dummy_to_update",
+    "statement": "select 'bin2' as binID  from Observation((datastream.id.toString() = 'tmp2' and  intResult> 10 ) or ( datastream.id.toString() = 'fill2' and intResult> 0 )).win:time(1 sec)  having count(*)=2"
+  },
   "topic_broker_route": {
     "name": "stinky_bin_route2",
     "statement": "select 'bin3' as binID  from Observation((datastream.id.toString() = 'tmp3' and  intResult> 10 ) or ( datastream.id.toString() = 'fill3' and intResult> 0 )).win:time(1 sec)  having count(*)=2",
@@ -31,6 +35,10 @@
     "output": [
       "LS/my/topic"
     ]
+  },
+  "topic_broker_route_dummy_to_update": {
+    "name": "stinky_bin_route2_dummy_to_update",
+    "statement": "select 'bin3' as binID  from Observation((datastream.id.toString() = 'tmp3' and  intResult> 10 ) or ( datastream.id.toString() = 'fill3' and intResult> 0 )).win:time(1 sec)  having count(*)=2"
   },
   "payload_translate": {
     "name": "stinky_bin_route_translate",
@@ -43,6 +51,10 @@
     ],
     "resultType": "SenML"
   },
+  "payload_translate_dummy_to_update": {
+    "name": "stinky_bin_route_translate_dummy_to_update",
+    "statement": "select 'bin4' as binID  from Observation((datastream.id.toString() = 'tmp4' and  intResult> 10 ) or ( datastream.id.toString() = 'fill4' and intResult> 0 )).win:time(1 sec)  having count(*)=2"
+  },
   "payload_transform": {
     "name": "stinky_bin_route_transform",
     "statement": "select 'bin5' as binID  from Observation((datastream.id.toString() = 'tmp5' and  intResult> 10 ) or ( datastream.id.toString() = 'fill5' and intResult> 0 )).win:time(1 sec)  having count(*)=2",
@@ -53,6 +65,10 @@
       "LS/DPA/1/RAW/0/RAW/stinky_bin"
     ],
     "resultType": "none"
+  },
+  "payload_transform_dummy_to_update": {
+    "name": "stinky_bin_route_transform_dummy_to_update",
+    "statement": "select 'bin5' as binID  from Observation((datastream.id.toString() = 'tmp5' and  intResult> 10 ) or ( datastream.id.toString() = 'fill5' and intResult> 0 )).win:time(1 sec)  having count(*)=2"
   },
   "protocol_translate": {
     "name": "protocol_translate",

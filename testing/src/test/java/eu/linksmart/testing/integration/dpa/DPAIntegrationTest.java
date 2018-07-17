@@ -316,12 +316,22 @@ public class DPAIntegrationTest implements MqttCallback{
     public void Tutorial5_route_broker() {
         upkeep();
         final String tutorial_short_name="stinky_bin_route";
-        MultiResourceResponses responses = processResponse(execute(
+        MultiResourceResponses responses;
+
+        responses = processResponse(execute(
+                Request.Put(testURL(agentURL+"/statement/"+tutorial_short_name+"/")).bodyString(
+                        toString(getStatement("broker_route_dummy_to_update"))
+                        ,
+                        ContentType.APPLICATION_JSON
+                )),201);
+
+
+        responses = processResponse(execute(
                 Request.Put(testURL(agentURL+"/statement/"+tutorial_short_name+"/")).bodyString(
                         toString(getStatement("broker_route"))
                         ,
                         ContentType.APPLICATION_JSON
-                )),201);
+                )),200);
 
 
         arrived[0] =false;
@@ -372,11 +382,22 @@ public class DPAIntegrationTest implements MqttCallback{
     public void Tutorial6_route_topic_broker() {
         upkeep();
         final String tutorial_short_name="stinky_bin_route2";
-        MultiResourceResponses responses = processResponse(execute(
+        MultiResourceResponses responses;
+
+
+        responses = processResponse(execute(
+                Request.Put(testURL(agentURL+"/statement/"+tutorial_short_name+"/")).bodyString(
+                        toString(getStatement("topic_broker_route_dummy_to_update"))
+                        ,
+                        ContentType.APPLICATION_JSON
+                )),201);
+
+
+        responses = processResponse(execute(
                 Request.Put(testURL(agentURL+"/statement/"+tutorial_short_name+"/")).bodyString(
                         toString(getStatement("topic_broker_route")),
                         ContentType.APPLICATION_JSON
-                )),201);
+                )),200);
 
 
         arrived[0] =false;
@@ -432,11 +453,20 @@ public class DPAIntegrationTest implements MqttCallback{
     public void Tutorial7_route_topic_broker_translate() {
         upkeep();
         final String tutorial_short_name="stinky_bin_route_translate";
-        MultiResourceResponses responses = processResponse(execute(
+        MultiResourceResponses responses;
+
+        responses = processResponse(execute(
+                Request.Put(testURL(agentURL+"/statement/"+tutorial_short_name+"/")).bodyString(
+                        toString(getStatement("payload_translate_dummy_to_update"))
+                        ,
+                        ContentType.APPLICATION_JSON
+                )),201);
+
+        responses = processResponse(execute(
                 Request.Put(testURL(agentURL+"/statement/"+tutorial_short_name+"/")).bodyString(
                         toString(getStatement("payload_translate")),
                         ContentType.APPLICATION_JSON
-                )),201);
+                )),200);
 
 
         arrived[0] =false;
@@ -493,11 +523,22 @@ public class DPAIntegrationTest implements MqttCallback{
     public void Tutorial8_route_topic_broker_transform() {
         upkeep();
         final String tutorial_short_name="stinky_bin_route_transform";
-        MultiResourceResponses responses = processResponse(execute(
+        MultiResourceResponses responses;
+
+        responses = processResponse(execute(
+                Request.Put(testURL(agentURL+"/statement/"+tutorial_short_name+"/")).bodyString(
+                        toString(getStatement("payload_transform_dummy_to_update"))
+                        ,
+                        ContentType.APPLICATION_JSON
+                )),201);
+
+
+
+        responses = processResponse(execute(
                 Request.Put(testURL(agentURL+"/statement/"+tutorial_short_name+"/")).bodyString(
                         toString(getStatement("payload_transform")),
                         ContentType.APPLICATION_JSON
-                )),201);
+                )),200);
 
 
         arrived[0] =false;
