@@ -44,7 +44,7 @@
         "id": "temp6" ,
         "name": "temperature6" ,
         "statement": "select Tools.randomEvent('ws6','tmp6',10,40) as temperature from pattern[every timer:interval(1 sec)]",
-		"output":["LS/weatherStation/ws6/OGC/1.0/Datastreams/tmp2"],
+		"output":["LS/weatherStation/ws6/OGC/1.0/Datastreams/tmp6"],
 		"scope":["weather"],
 		"essential":true
       },
