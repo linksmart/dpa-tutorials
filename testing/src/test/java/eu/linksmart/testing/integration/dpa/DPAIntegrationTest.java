@@ -616,10 +616,9 @@ public class DPAIntegrationTest implements MqttCallback{
         arrived[0] =false;
         final String[] arrTopic ={""};
         final String[] error ={""};
-        System.out.println("CONN "+subscriber.getCurrentServerURI());
+        System.out.println("CONN "+((subscriber.getServerURI()!=null)?subscriber.getServerURI():" unavailable URL"));
         connect(subscriber);
-        System.out.println("SUB "+subscriber.getCurrentServerURI()+"#");
-        subscribe(subscriber,"#");
+        System.out.println("SUB "+((subscriber.getServerURI()!=null)?subscriber.getServerURI():" unavailable URL")+"#");
 
         subscriber.setCallback(new MqttCallback() {
             @Override
@@ -678,9 +677,9 @@ public class DPAIntegrationTest implements MqttCallback{
         long before =((new Date()).getTime()), after;
         do{
             System.out.println("Trying ... ");
-            System.out.println("CONN "+subscriber.getCurrentServerURI());
+            System.out.println("CONN "+((subscriber.getServerURI()!=null)?subscriber.getServerURI():" unavailable URL"));
             connect(client);
-            System.out.println("SUB "+subscriber.getCurrentServerURI()+"{"+ Arrays.stream(topics).collect(Collectors.joining(" , "))+"}");
+            System.out.println("SUB "+((subscriber.getServerURI()!=null)?subscriber.getServerURI():" unavailable URL")+"{"+ Arrays.stream(topics).collect(Collectors.joining(" , "))+"}");
             subscribe(client,topics);
             after =((new Date()).getTime());
             wait(100);
@@ -813,7 +812,7 @@ public class DPAIntegrationTest implements MqttCallback{
             for (int i=0;i<topics.length;i++)
                 qos[i]=2;
 
-            System.out.println("SUB "+subscriber.getCurrentServerURI()+"{"+ Arrays.stream(topics).collect(Collectors.joining(" , "))+"}");
+            System.out.println("SUB "+((subscriber.getServerURI()!=null)?subscriber.getServerURI():" unavailable URL")+"{"+ Arrays.stream(topics).collect(Collectors.joining(" , "))+"}");
             subscriber.subscribe(topics,qos);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -827,7 +826,7 @@ public class DPAIntegrationTest implements MqttCallback{
     private void unsubscribe(MqttClient subscriber,String... topics) {
         connect(subscriber);
         try {
-            System.out.println("USUB "+subscriber.getCurrentServerURI()+"{"+ Arrays.stream(topics).collect(Collectors.joining(" , "))+"}");
+            System.out.println("USUB "+((subscriber.getServerURI()!=null)?subscriber.getServerURI():" unavailable URL")+"{"+ Arrays.stream(topics).collect(Collectors.joining(" , "))+"}");
             subscriber.unsubscribe(topics);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -840,7 +839,7 @@ public class DPAIntegrationTest implements MqttCallback{
             try {
                 System.out.println("Trying, left tries:"+i);
                 i--;
-                System.out.println("CONN "+client.getCurrentServerURI());
+                System.out.println("CONN " + ((client.getServerURI()!=null)?client.getServerURI():" unavailable URL"));
                 client.connect();
             } catch (Exception e) {
                 e.printStackTrace();
