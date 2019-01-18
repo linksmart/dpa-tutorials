@@ -33,6 +33,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -602,6 +603,9 @@ public class DPAIntegrationTest implements MqttCallback{
     public void Tutorial9_protocol_translate() {
         upkeep();
         final String tutorial_short_name="protocol_translate";
+        System.out.println("PUT "+agentURL+"/statement/"+tutorial_short_name+"/");
+        System.out.println("Header: "+ContentType.APPLICATION_JSON);
+        System.out.println("Body: "+agentURL+"/statement/"+tutorial_short_name+"/");
         MultiResourceResponses responses = processResponse(execute(
                 Request.Put(testURL(agentURL+"/statement/"+tutorial_short_name+"/")).bodyString(
                         toString(getStatement("protocol_translate")),
@@ -612,8 +616,9 @@ public class DPAIntegrationTest implements MqttCallback{
         arrived[0] =false;
         final String[] arrTopic ={""};
         final String[] error ={""};
-
+        System.out.println("CONN "+subscriber.getCurrentServerURI());
         connect(subscriber);
+        System.out.println("SUB "+subscriber.getCurrentServerURI()+"#");
         subscribe(subscriber,"#");
 
         subscriber.setCallback(new MqttCallback() {
@@ -640,6 +645,7 @@ public class DPAIntegrationTest implements MqttCallback{
         unsubscribe(subscriber, "#");
         //MultiResourceResponses<ObservationImpl> result = processResponse(execute(Request.Get(testURL(agentURL+"/statement/"+tutorial_short_name+"/output/"))),200,new TypeReference<MultiResourceResponses<ObservationImpl>>() {});
 
+        System.out.println("Executing: DELETE "+agentURL+"/statement/"+tutorial_short_name+"/");
         execute(Request.Delete(testURL(agentURL+"/statement/"+tutorial_short_name+"/")));
 
         if(!"".equals(error[0]))
@@ -671,7 +677,10 @@ public class DPAIntegrationTest implements MqttCallback{
     private void tryTill(long time, MqttClient client,String... topics){
         long before =((new Date()).getTime()), after;
         do{
+            System.out.println("Trying ... ");
+            System.out.println("CONN "+subscriber.getCurrentServerURI());
             connect(client);
+            System.out.println("SUB "+subscriber.getCurrentServerURI()+"{"+ Arrays.stream(topics).collect(Collectors.joining(" , "))+"}");
             subscribe(client,topics);
             after =((new Date()).getTime());
             wait(100);
@@ -804,6 +813,7 @@ public class DPAIntegrationTest implements MqttCallback{
             for (int i=0;i<topics.length;i++)
                 qos[i]=2;
 
+            System.out.println("SUB "+subscriber.getCurrentServerURI()+"{"+ Arrays.stream(topics).collect(Collectors.joining(" , "))+"}");
             subscriber.subscribe(topics,qos);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -817,6 +827,7 @@ public class DPAIntegrationTest implements MqttCallback{
     private void unsubscribe(MqttClient subscriber,String... topics) {
         connect(subscriber);
         try {
+            System.out.println("USUB "+subscriber.getCurrentServerURI()+"{"+ Arrays.stream(topics).collect(Collectors.joining(" , "))+"}");
             subscriber.unsubscribe(topics);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -827,7 +838,9 @@ public class DPAIntegrationTest implements MqttCallback{
         int i = 5;
         while (!client.isConnected() && i > 0)
             try {
+                System.out.println("Trying, left tries:"+i);
                 i--;
+                System.out.println("CONN "+client.getCurrentServerURI());
                 client.connect();
             } catch (Exception e) {
                 e.printStackTrace();
