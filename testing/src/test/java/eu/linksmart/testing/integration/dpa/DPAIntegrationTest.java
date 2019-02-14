@@ -688,7 +688,7 @@ public class DPAIntegrationTest implements MqttCallback{
     }
     private MqttClient prepareSecondBroker(){
         try {
-            String url2 = System.getenv().getOrDefault("BROKER2_URL", System.getenv().getOrDefault("CITY_URL", "tcp://localhost:1881"));
+            String url2 = System.getenv().getOrDefault("BROKER2_URL", System.getenv().getOrDefault("CITY_URL", "tcp://localhost:1882"));
             return new MqttClient(url2, "city"+UUID.randomUUID().toString(),new MemoryPersistence());
         }catch (Exception e){
             fail(e.getMessage());
