@@ -71,6 +71,7 @@ services:
       - sc
     environment:
       - api_events_mqtt_broker_incoming=weather,waste
+      - messaging_client_mqtt_autoblacklisting=false
       - linksmart_service_catalog_endpoint=http://sc:8082
       - cep_init_bootstrapping_files=/data/bootstrapping/bootstrapping.json
     volumes:

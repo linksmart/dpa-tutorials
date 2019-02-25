@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>eu.linksmart.services.events</groupId>
+  <artifactId>cep.engines</artifactId>
+  <version>1.8.1-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20180625.152821</timestamp>
+      <buildNumber>63</buildNumber>
+    </snapshot>
+    <lastUpdated>20180625152821</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.8.1-20180625.152821-63</value>
+        <updated>20180625152821</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
