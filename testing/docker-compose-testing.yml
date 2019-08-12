@@ -1,9 +1,9 @@
 version: '3'
 services:
   agent:
-    image: docker.linksmart.eu/agent:dpa-experimental
+    image: linksmart/dpa:experimental
   it:
-    image: docker.linksmart.eu/ci/maven-builder:latest
+    image: maven:3.6-jdk-10
     working_dir: /test/
     depends_on:
       - weather
@@ -20,7 +20,6 @@ services:
       - sc
       - agent
     volumes:
-      - ./:/data/
       - ./testing:/test/
     environment:
       - INPUT_BROKER_URL=tcp://weather:1883
@@ -28,7 +27,7 @@ services:
       - BROKER2_URL=tcp://city:1883
       - AGENT_URL=http://agent:8319
     command:
-      - -Dversion=1.8.1-SNAPSHOT
+#      - -Dversion=${AGENT_VERSION}
       - test
     networks:
       - net

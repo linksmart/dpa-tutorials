@@ -32,7 +32,7 @@ services:
     links:
       - weather
   sc:
-    image: docker.linksmart.eu/sc:latest
+    image: linksmart/sc:latest
     depends_on:
       - weather
       - city
@@ -54,7 +54,7 @@ services:
       - net1
       - net2
   agent:
-    image: docker.linksmart.eu/agent:dpa-snapshot
+    image: linksmart/dpa:snapshot
     hostname: agent
     depends_on:
       - weather
