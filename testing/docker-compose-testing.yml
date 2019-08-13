@@ -20,7 +20,7 @@ services:
       - sc
       - agent
     volumes:
-      - D:\workspaces\data-processing-agent\dpa-tutorials:/test/
+      - "${pwd}/testing/:/test/"
     environment:
       - INPUT_BROKER_URL=tcp://weather:1883
       - OUTPUT_BROKER_URL=tcp://main_broker:1883
