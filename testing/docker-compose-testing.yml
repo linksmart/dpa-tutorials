@@ -2,35 +2,35 @@ version: '3'
 services:
   agent:
     image: linksmart/dpa:experimental
-  it:
-    image: maven:3.6-jdk-10
-    working_dir: /test/
-    depends_on:
-      - weather
-      - city
-      - waste
-      - main_broker
-      - sc
-      - agent
-    links:
-      - weather
-      - waste
-      - city
-      - main_broker
-      - sc
-      - agent
-    volumes:
-      - "${pwd}/testing/:/test/"
-    environment:
-      - INPUT_BROKER_URL=tcp://weather:1883
-      - OUTPUT_BROKER_URL=tcp://main_broker:1883
-      - BROKER2_URL=tcp://city:1883
-      - AGENT_URL=http://agent:8319
-    command:
-#      - -Dversion=${AGENT_VERSION}
-      - test
-    networks:
-      - net
-      - net0
-      - net1
-      - net2
+#  it:
+#    image: maven:3.6-jdk-10
+#    working_dir: /test/
+#    depends_on:
+#      - weather
+#      - city
+#      - waste
+#      - main_broker
+#      - sc
+#      - agent
+#    links:
+#      - weather
+#      - waste
+#      - city
+#      - main_broker
+#      - sc
+#      - agent
+#    volumes:
+#      - "${pwd}/testing/:/test/"
+#    environment:
+#      - INPUT_BROKER_URL=tcp://weather:1883
+#      - OUTPUT_BROKER_URL=tcp://main_broker:1883
+#      - BROKER2_URL=tcp://city:1883
+#      - AGENT_URL=http://agent:8319
+#    command:
+##      - -Dversion=${AGENT_VERSION}
+#      - test
+#    networks:
+#      - net
+#      - net0
+#      - net1
+#      - net2
