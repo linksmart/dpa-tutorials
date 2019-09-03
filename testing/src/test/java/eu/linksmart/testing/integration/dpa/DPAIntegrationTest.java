@@ -12,6 +12,7 @@ import eu.linksmart.services.payloads.ogc.sensorthing.OGCEventBuilder;
 import eu.linksmart.services.payloads.ogc.sensorthing.Observation;
 import eu.linksmart.services.payloads.ogc.sensorthing.linked.ObservationImpl;
 import com.fasterxml.jackson.core.type.TypeReference;
+import eu.linksmart.services.utils.function.CI;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Content;
@@ -55,6 +56,8 @@ public class DPAIntegrationTest implements MqttCallback{
 
     @Before
     public void initialization(){
+
+        CI.ciCollapseMark("DPAIntegrationTestInit");
         String url = System.getenv().getOrDefault("INPUT_BROKER_URL", "tcp://localhost:1883");
         String url2 = System.getenv().getOrDefault("OUTPUT_BROKER_URL", "tcp://localhost:1883");
 
@@ -79,6 +82,7 @@ public class DPAIntegrationTest implements MqttCallback{
             fail(e.getMessage());
         }
 
+        CI.ciCollapseMark("DPAIntegrationTestInit");
     }
 
     private void waitingAgent() {
@@ -114,6 +118,8 @@ public class DPAIntegrationTest implements MqttCallback{
 
     @Test
     public void T00_hello() {
+
+        CI.ciCollapseMark("DPAIntegrationTestHello");
         upkeep();
 
         Response response = execute(Request.Get(testURL(agentURL)));
@@ -129,9 +135,12 @@ public class DPAIntegrationTest implements MqttCallback{
         MultiResourceResponses<Statement> root = processResponse(execute(Request.Get(testURL(agentURL+"/statement/"))),200);
 
         ending();
+
+        CI.ciCollapseMark("DPAIntegrationTestHello");
     }
     @Test
     public void T1_counting() {
+        CI.ciCollapseMark("DPAIntegrationTestCount");
         upkeep();
 
         processResponse(execute(
@@ -194,6 +203,7 @@ public class DPAIntegrationTest implements MqttCallback{
 
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestCount");
     }
     /*
     "{\n" +
@@ -203,6 +213,7 @@ public class DPAIntegrationTest implements MqttCallback{
     * */
     @Test
     public void Tutorial1_aggregate() {
+        CI.ciCollapseMark("DPAIntegrationTestAggregation");
         upkeep();
         final String tutorial_short_name="average_temperature";
 
@@ -223,6 +234,7 @@ public class DPAIntegrationTest implements MqttCallback{
         assertEquals("expect between 3 to 5 events",25.0,result.getHeadResource().getDoubleResult(),15.0);
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestAggregation");
     }
     /*
     * "{\n" +
@@ -232,6 +244,7 @@ public class DPAIntegrationTest implements MqttCallback{
     * */
     @Test
     public void Tutorial2_alert() {
+        CI.ciCollapseMark("DPAIntegrationTestAlert");
         upkeep();
         final String tutorial_short_name="full_alert";
 
@@ -252,6 +265,7 @@ public class DPAIntegrationTest implements MqttCallback{
         assertEquals("There is a last output in the statement",false,result.getResources().isEmpty());
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestAlert");
     }
     /*
     * "{\n" +
@@ -261,6 +275,7 @@ public class DPAIntegrationTest implements MqttCallback{
     * */
     @Test
     public void Tutorial3_postProcess() {
+        CI.ciCollapseMark("DPAIntegrationTestPostProcess");
         upkeep();
         final String tutorial_short_name="weight";
         processResponse(execute(
@@ -279,6 +294,7 @@ public class DPAIntegrationTest implements MqttCallback{
         assertEquals("is value be over 1000?",true,(int)((Map)result.getHeadResource().getResult()).get("weight")>1000);
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestPostProcess");
     }
     /*
     *"{\n" +
@@ -287,6 +303,7 @@ public class DPAIntegrationTest implements MqttCallback{
                                 "}" */
     @Test
     public void Tutorial4_fusion() {
+        CI.ciCollapseMark("DPAIntegrationTestFusion");
         upkeep();
         final String tutorial_short_name="stinky_bin";
         processResponse(execute(
@@ -305,6 +322,7 @@ public class DPAIntegrationTest implements MqttCallback{
         assertEquals("Bin1 stinks?",true,result.getHeadResource().getResult() instanceof String && result.getHeadResource().getResult().toString().contains("bin1"));
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestFusion");
     }
 /*
 "{\n" +
@@ -315,6 +333,7 @@ public class DPAIntegrationTest implements MqttCallback{
 * */
     @Test
     public void Tutorial5_route_broker() {
+        CI.ciCollapseMark("DPAIntegrationTestRouteBroker");
         upkeep();
         final String tutorial_short_name="stinky_bin_route";
         MultiResourceResponses responses;
@@ -369,6 +388,7 @@ public class DPAIntegrationTest implements MqttCallback{
         assertEquals("The arrived topic and topic defined of the query do not match",arrTopic[0],(responses.getResponsesTail().getTopics().get(0)));
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestRouteBroker");
     }
     /*
     *
@@ -381,6 +401,7 @@ public class DPAIntegrationTest implements MqttCallback{
     * */
     @Test
     public void Tutorial6_route_topic_broker() {
+        CI.ciCollapseMark("DPAIntegrationTestRouteTopic");
         upkeep();
         final String tutorial_short_name="stinky_bin_route2";
         MultiResourceResponses responses;
@@ -440,6 +461,7 @@ public class DPAIntegrationTest implements MqttCallback{
 
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestRouteTopic");
     }
     /*
     "{\n" +
@@ -452,6 +474,7 @@ public class DPAIntegrationTest implements MqttCallback{
     * */
     @Test
     public void Tutorial7_route_topic_broker_translate() {
+        CI.ciCollapseMark("DPAIntegrationTestBrokerTranslate");
         upkeep();
         final String tutorial_short_name="stinky_bin_route_translate";
         MultiResourceResponses responses;
@@ -509,6 +532,7 @@ public class DPAIntegrationTest implements MqttCallback{
         assertEquals("The defined topic and the arrived topic of the query do not match","LS/DPA/1/SenML/10/Event/stinky_bin_route_translate",arrTopic[0]);
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestBrokerTranslate");
     }
     /*
 
@@ -522,6 +546,7 @@ public class DPAIntegrationTest implements MqttCallback{
     * */
     @Test
     public void Tutorial8_route_topic_broker_transform() {
+        CI.ciCollapseMark("DPAIntegrationTestBrokerTransform");
         upkeep();
         final String tutorial_short_name="stinky_bin_route_transform";
         MultiResourceResponses responses;
@@ -588,6 +613,7 @@ public class DPAIntegrationTest implements MqttCallback{
         assertEquals("The defined topic and the arrived topic of the query do not match","LS/DPA/1/RAW/0/RAW/stinky_bin",arrTopic[0]);
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestBrokerTransform");
     }
 /*
 "{\n" +
@@ -601,6 +627,7 @@ public class DPAIntegrationTest implements MqttCallback{
 * */
     @Test
     public void Tutorial9_protocol_translate() {
+        CI.ciCollapseMark("DPAIntegrationTestProtocolTranslate");
         upkeep();
         final String tutorial_short_name="protocol_translate";
         System.out.println("PUT "+agentURL+"/statement/"+tutorial_short_name+"/");
@@ -657,6 +684,7 @@ public class DPAIntegrationTest implements MqttCallback{
         assertEquals("The defined topic and the arrived topic of the query do not match","routed",arrTopic[0]);
 
         ending();
+        CI.ciCollapseMark("DPAIntegrationTestProtocolTranslate");
     }
     private Map getStatement(String name){
         Map statement = null;
